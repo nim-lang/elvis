@@ -26,7 +26,7 @@ template truthy*[T](val: seq[T]): bool = (val != @[])
 template truthy*[T](val: Option[T]): bool = isSome(val)
 
 # true if truthy and no exception.
-template `?`*[T](val: T): bool = (try: truthy(val) except: false)
+template `?`*[T](val: T): bool = (try: truthy(val) except Exception: false)
 
 template truthy*[T](val: T): bool = not compiles(val.isNil())
 
@@ -54,7 +54,7 @@ template `.?`*(left, right: untyped): untyped =
     var tmp = left
     if truthy(tmp): tmp.right
     else: default(typeof(left.right))
-  except: default(typeof(left.right))
+  except Exception: default(typeof(left.right))
 
 type Branch[T] = object
   then, other: T
